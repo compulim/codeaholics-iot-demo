@@ -55,8 +55,10 @@ AWS Lambda is required for using [Alexa Smart Home Skill API](https://developer.
 
 ### Sparkfun ESP8266 Thing Dev
 
+* The board is 3.3V logic
 * [Pins](https://learn.sparkfun.com/tutorials/esp8266-thing-development-board-hookup-guide/using-the-esp8266-in-arduino) are very limited, some numbered pins has special feature
-* Prefer don't use [boot up pins](http://www.forward.com.au/pfod/ESP8266/GPIOpins/index.html), otherwise, the ESP8266 may not boot up
+* Prefer leaving [boot up pins] alone, pin 0, 2, 15(http://www.forward.com.au/pfod/ESP8266/GPIOpins/index.html), otherwise, the ESP8266 may not boot up
+* Pin 5 will flash on device boot
 
 ### AWS Lambda
 
