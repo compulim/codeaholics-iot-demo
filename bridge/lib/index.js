@@ -1,5 +1,5 @@
 'use strict';
 
-const deviceRegistry = new (require('./deviceRegistry'))();
+const bridge = new (require('./bridge'))();
 
-deviceRegistry.addDevice(new (require('./powerStrip1'))());
+bridge.addDevice(new (require('./powerStrip1'))());

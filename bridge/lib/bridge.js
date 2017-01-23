@@ -4,9 +4,9 @@ const config          = require('./config');
 const Device          = require('./device');
 const packageJSON     = require('../package.json');
 
-class DeviceRegistry extends Device {
+class Bridge extends Device {
   constructor() {
-    super('Device registry', config.DEVICE_REGISTRY_CONNECTION_STRING);
+    super('Bridge', config.BRIDGE_CONNECTION_STRING);
 
     this._devices = [];
 
@@ -19,18 +19,11 @@ class DeviceRegistry extends Device {
       throw new Error('must be an instance of Device');
     }
 
+    // TODO: Auto create device on IoT hub
+    // TODO: Auto retrieve connection string for IoT hub
+
     this._devices.push(device);
   }
-
-  // addDevice(deviceID, friendlyName, friendlyDescription, azureIotConnectionString, handlers) {
-  //   this._devices.push({
-  //     deviceID,
-  //     friendlyName,
-  //     friendlyDescription,
-  //     azureIotConnectionString,
-  //     handlers
-  //   });
-  // }
 
   async healthCheck(payload) {
     return payload;
@@ -49,4 +42,4 @@ class DeviceRegistry extends Device {
   }
 }
 
-module.exports = DeviceRegistry;
+module.exports = Bridge;

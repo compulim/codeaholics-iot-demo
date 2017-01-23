@@ -19,9 +19,7 @@ class Device {
     this.debug = require('debug')(`device:${ deviceID }`);
 
     this.alexaDescriptor = Object.assign({
-      additionalApplianceDetails: {
-        azureIotConnectionString: azureIotConnectionString
-      },
+      additionalApplianceDetails: {},
       applianceId               : deviceID,
       friendlyDescription       : friendlyName,
       friendlyName              : friendlyName,
