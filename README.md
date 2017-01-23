@@ -32,10 +32,10 @@ This is the repository for Codeaholics meetup on 2017 January, presented by Will
 
 1. Run Arduino IDE
 2. Open [`arduino/StandardFirmataWiFi/StandardFirmataWiFi.ino`](arduino/StandardFirmataWiFi/StandardFirmataWiFi.ino)
-3. Modify [`arduino/StandardFirmataWiFi/wifiConfig.h`](arduino/StandardFirmataWiFi/wifiConfig.h), under option D
-    1. Modify step 3, update `char ssid[] = "<Your SSID>";`
-    2. Modify step 4, update `#define STATIC_IP_ADDRESS  192,168,0,123`
-    3. Modify step 6, update `char wpa_passphrase[] = "<Your password>";`
+3. Modify [`arduino/StandardFirmataWiFi/wifiConfig.h`](arduino/StandardFirmataWiFi/wifiConfig.h)
+   1. Modify [line 122](arduino/StandardFirmataWiFi/wifiConfig.h#L122), update `char ssid[] = "<Your SSID>";`
+   2. Modify [line 129](arduino/StandardFirmataWiFi/wifiConfig.h#L129), update `#define STATIC_IP_ADDRESS  192,168,0,123`
+   3. Modify [line 154](arduino/StandardFirmataWiFi/wifiConfig.h#L154), update `char wpa_passphrase[] = "<Your password>";`
 4. Upload the sketch to your [Sparkfun ESP8266 Thing Dev](https://www.sparkfun.com/products/13711)
 
 ### Setup AWS Lambda
