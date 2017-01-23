@@ -1,0 +1,18 @@
+{
+  "name": "codeaholics-iot-demo-lambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "discovery": "node testDiscovery",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "turn-on": "node testTurnOn"
+  },
+  "author": "William Wong <compulim@hotmail.com> (https://github.com/compulim)",
+  "license": "MIT",
+  "dependencies": {
+    "azure-iot-common": "^1.1.3",
+    "azure-iothub": "^1.1.3",
+    "debug": "^2.6.0"
+  }
+}
