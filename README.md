@@ -51,6 +51,10 @@ AWS Lambda is required for using [Alexa Smart Home Skill API](https://developer.
 2. Modify [`bridge/lib/powerStrip1.js`](bridge/lib/powerStrip1.js) if you are using different pin for control and status, default is pin 15 and 4 respectively
 3. Under [`bridge/`](bridge/), run `npm start`
 
+### Build the board
+
+![Board design](https://raw.githubusercontent.com/compulim/codeaholics-iot-demo/feat-board-design/sketch.png)
+
 ## Development points
 
 ### Sparkfun ESP8266 Thing Dev
