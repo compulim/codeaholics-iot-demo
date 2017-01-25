@@ -53,7 +53,7 @@ AWS Lambda is required for using [Alexa Smart Home Skill API](https://developer.
 
 ### Build the board
 
-![Board design](https://raw.githubusercontent.com/compulim/codeaholics-iot-demo/feat-board-design/sketch.png)
+![Board design](https://raw.githubusercontent.com/compulim/codeaholics-iot-demo/master/sketch.png)
 
 ## Development points
 
