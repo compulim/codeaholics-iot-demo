@@ -1,8 +1,7 @@
 'use strict';
 
-const AZURE_IOTHUB_CONNECTION_STRING  = 'HostName=codeaholics-iothub.azure-devices.net;SharedAccessKeyName=service;SharedAccessKey=ftHSBjm+qdxO0+XwpzsRVkjp9quzZeXNTVfZjezGP5M=';
+const AZURE_IOTHUB_CONNECTION_STRING  = process.env.CUSTOM_CONNSTR_AZURE_IOTHUB;
 const AZURE_IOTHUB_TIMEOUT_IN_SECONDS = 5;
-const AZURE_IOTHUB_BRIDGE_DEVICE_ID   = 'bridge';
 
 const Client  = require('azure-iothub').Client;
 const debug   = require('debug')('lambda');
@@ -82,7 +81,37 @@ function handleDiscovery(event) {
 function handleDiscoverAppliances() {
   debug('discovery', 'handling discovery appliances request');
 
-  return invokeDeviceMethod(AZURE_IOTHUB_BRIDGE_DEVICE_ID, 'discover', { source: 'alexa' }, 'DiscoverAppliancesResponse');
+  const appliances = require('./discoverAppliances.json').slice();
+
+  return Promise.all(appliances.map(appliance => {
+    return new Promise((resolve, reject) => {
+      executeOnAzure(
+        (client, callback) => {
+          client.invokeDeviceMethod(
+            appliance.applianceId,
+            {
+              methodName              : 'ping',
+              payload                 : { now: Date.now() },
+              responseTimeoutInSeconds: AZURE_IOTHUB_TIMEOUT_IN_SECONDS
+            },
+            callback
+          );
+        },
+        (err, result) => {
+          appliance.isReachable = !err && result.status === 200;
+          resolve();
+        }
+      );
+    });
+  }))
+  .then(res => ({
+    header: {
+      name: 'DiscoverAppliancesResponse'
+    },
+    payload: {
+      discoveredAppliances: appliances
+    }
+  }));
 }
 
 function handleControl(event) {
@@ -111,27 +140,15 @@ function handleSystem(event) {
 }
 
 function handleHealthCheckRequest(payload) {
-  return invokeDeviceMethod(AZURE_IOTHUB_BRIDGE_DEVICE_ID, 'healthCheck', {})
-    .then(
-      () => ({
-        header: {
-          name: 'HealthCheckResponse'
-        },
-        payload: {
-          description: 'The system is currently healthy',
-          isHealthy: true
-        }
-      }),
-      err => ({
-        header: {
-          name: 'HealthCheckResponse'
-        },
-        payload: {
-          description: 'The system is currently down',
-          isHealthy: false
-        }
-      })
-    );
+  return {
+    header: {
+      name: 'HealthCheckResponse'
+    },
+    payload: {
+      description: 'The system is currently healthy',
+      isHealthy: true
+    }
+  };
 }
 
 function invokeDeviceMethod(deviceID, methodName, payload, responseName) {
@@ -171,6 +188,10 @@ function invokeDeviceMethod(deviceID, methodName, payload, responseName) {
         } else {
           const error = new Error(`server returned ${ result.status }`);
 
+          if (result.status === 404) {
+            error.alexaHeader = { name: 'TargetOfflineError' };
+          }
+
           error.message = result.payload.message;
           error.stack = result.payload.stack;
 
@@ -197,15 +218,14 @@ function executeOnAzure(executor, callback) {
     executor(client, (err, res) => {
       if (err) {
         debug('iothub', `operation failed with ${ err }`);
-        return callback(err);
+      } else {
+        debug('iothub', `operation succeeded with ${ JSON.stringify(res) }`);
       }
 
-      debug('iothub', `operation succeeded with ${ JSON.stringify(res) }`);
-
-      client.close(err => {
+      client.close(err2 => {
         debug('iothub', 'disconnecting');
 
-        callback(err, err ? null : res);
+        callback(err || err2, (err || err2) ? null : res);
       });
     });
   });

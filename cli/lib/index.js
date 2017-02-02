@@ -17,27 +17,33 @@ program
 program
   .command('on <device>')
   .action(deviceID => {
-    callMethod(deviceID, 'turnOn', {});
+    callMethod(deviceID, 'turnOn');
     // sendMessage(deviceID, { action: 'on' });
   });
 
 program
   .command('off <device>')
   .action(deviceID => {
-    callMethod(deviceID, 'turnOff', {});
+    callMethod(deviceID, 'turnOff');
     // sendMessage(deviceID, { action: 'off' });
+  });
+
+program
+  .command('ping <device>')
+  .action(deviceID => {
+    callMethod(deviceID, 'ping', { now: Date.now() });
   });
 
 program
   .command('discover')
   .action(() => {
-    callMethod('deviceRegistry', 'discover', {});
+    callMethod('bridge', 'discover');
   });
 
 program
   .command('unknown')
   .action(() => {
-    callMethod('deviceRegistry', 'abc', {});
+    callMethod('bridge', 'abc');
   });
 
 program.parse(process.argv);

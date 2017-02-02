@@ -1,0 +1,16 @@
+[
+  {
+    "actions": [
+      "turnOn",
+      "turnOff"
+    ],
+    "additionalApplianceDetails": {},
+    "applianceId": "powerStrip1",
+    "friendlyDescription": "Power strip in bedroom",
+    "friendlyName": "Power strip 1",
+    "manufacturerName": "Windows Azure",
+    "modelName": "Powex",
+    "version": "1.0.0",
+    "manufacturer": "Schneider"
+  }
+]
